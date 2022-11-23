@@ -8,7 +8,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.List;
 
-public class __FindingByLinkText {
+public class _05_FindingByLinkText {
     public static void main(String[] args) {
         System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
         WebDriver driver = new ChromeDriver();                                  // web sayfasının kontrol eden görevli.
