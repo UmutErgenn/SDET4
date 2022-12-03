@@ -23,6 +23,8 @@ public class BaseDriver
 
     static  // açışılta çalışan kod kısmı.
     {
+        KalanOncekileriKapat();
+
         Logger logger = Logger.getLogger("");       // "" işareti ile sisteme ait tüm log'lara ulaştım.
         logger.setLevel(Level.SEVERE);      // sadece error'ları göster.
 
@@ -31,7 +33,7 @@ public class BaseDriver
         System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
         driver = new ChromeDriver();
 
-        driver.manage().window().maximize();    // tam ekran.
+     // driver.manage().window().maximize();    // tam ekran.
         driver.manage().deleteAllCookies();     // site bizi robot olarak fişleyebileceği için sitenin senin bilgisayarında yaptığı ayarlar siliniyor.
         // Sayfayı başlangıç ayarlarına döndürür, sayfaya ilk kez giriyormuş gibi oluruz.
 
@@ -51,6 +53,18 @@ public class BaseDriver
         driver.manage().timeouts().implicitlyWait(dr);  // tüm WebElementlerin element bazında, elemente özel işlem yapılmadan önce,
         // hazır hale gelmesi için verilen mühlet yani süre.
     }
+
+    public static void KalanOncekileriKapat() {     // test yaparken webdriver'ın açtığı, açık kalmış chrome sekmelerini kapatır, performans booster.
+
+        try {
+            Runtime.getRuntime().exec("taskkill /F /IM chromedriver.exe /T");
+        }
+        catch (Exception ignored)
+        {
+
+        }
+    }
+
     public static void driverBekleKapat()
     {
         MyFunc.Bekle(3);
