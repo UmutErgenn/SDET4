@@ -3,6 +3,7 @@ package Utility;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.logging.Level;
@@ -11,6 +12,7 @@ import java.util.logging.Logger;
 public class BaseDriver
 {
     public static WebDriver driver;
+    public static WebDriverWait wait;
 /*
     public static void driverBaslat()       // NORMAL KULLANIMI BU ŞEKİLDE
     {
@@ -18,8 +20,8 @@ public class BaseDriver
         driver = new ChromeDriver();       // web sayfasının kontrol eden görevli.
     }
 */
-    // Eğer java'da açılışta, yani ilk başta çalışacak bir metodu sadece static olarak tanımlayabiliriz,
-    // ve metodu çağırmamıza gerek kalmadan, program başlangıcında otomatik olarak çalışır.bu sadece ilk çalışacak kod için geçerlididr.
+//     Eğer java'da açılışta, yani ilk başta çalışacak bir metodu sadece static olarak tanımlayabiliriz,
+//     ve metodu çağırmamıza gerek kalmadan, program başlangıcında otomatik olarak çalışır.bu sadece ilk çalışacak kod için geçerlididr.
 
     static  // açışılta çalışan kod kısmı.
     {
@@ -33,27 +35,28 @@ public class BaseDriver
         System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
         driver = new ChromeDriver();
 
-     // driver.manage().window().maximize();    // tam ekran.
+//      driver.manage().window().maximize();    // tam ekran.
         driver.manage().deleteAllCookies();     // site bizi robot olarak fişleyebileceği için sitenin senin bilgisayarında yaptığı ayarlar siliniyor.
         // Sayfayı başlangıç ayarlarına döndürür, sayfaya ilk kez giriyormuş gibi oluruz.
 
 
-        // sayfa yüklenirken butonlar ve elemanların tıklanabilir hale gelmesi için belli bir süre gerekir,
-        // biz test yaparken javanın bu süre kadar beklemesi gerekir.
+//         sayfa yüklenirken butonlar ve elemanların tıklanabilir hale gelmesi için belli bir süre gerekir,
+//         biz test yaparken javanın bu süre kadar beklemesi gerekir.
 
-        // sayfanın yüklenmesi ve elemanların yüklenmesi farklı şeylerdir.
+//         sayfanın yüklenmesi ve elemanların yüklenmesi farklı şeylerdir.
 
-        // bunun sebebi: java hızlı çalışıyor ama web sayfası o kadar hızlı çalışamaıyor, bizim bunu eşitlememiz gerek.
+//         bunun sebebi: java hızlı çalışıyor ama web sayfası o kadar hızlı çalışamaıyor, bizim bunu eşitlememiz gerek.
 
         Duration dr=Duration.ofSeconds(30);
         driver.manage().timeouts().pageLoadTimeout(dr);
-        // bu eklenmezse selenium sayfa yüklenene (sonsuza) kadar bekler. : 30 sn sayfanın yüklenmesini bekle,yüklenemezse hata ver.
-        // eğer 2 sn'de yüklerse 30 sn beklemez.
+//         bu eklenmezse selenium sayfa yüklenene (sonsuza) kadar bekler. : 30 sn sayfanın yüklenmesini bekle,yüklenemezse hata ver.
+//         eğer 2 sn'de yüklerse 30 sn beklemez.
 
         driver.manage().timeouts().implicitlyWait(dr);  // tüm WebElementlerin element bazında, elemente özel işlem yapılmadan önce,
-        // hazır hale gelmesi için verilen mühlet yani süre.
-    }
+//         hazır hale gelmesi için verilen mühlet yani süre.
 
+       wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    }
     public static void KalanOncekileriKapat() {     // test yaparken webdriver'ın açtığı, açık kalmış chrome sekmelerini kapatır, performans booster.
 
         try {
@@ -64,11 +67,9 @@ public class BaseDriver
 
         }
     }
-
     public static void driverBekleKapat()
     {
         MyFunc.Bekle(3);
         driver.quit();             // açılmış olan tüm tarayıcıları kapatır.
     }
-
 }
